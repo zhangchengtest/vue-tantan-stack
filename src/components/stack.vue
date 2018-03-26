@@ -324,6 +324,31 @@ export default {
     display: block;
     pointer-events: none;
   }
+  .mydiv1 {
+    width: 100%;
+    height: 320px;
+    display: block;
+    pointer-events: none;
+ 
+    background-color:#FAF9DE;
+  }
+
+   .mydiv2 {
+    width: 100%;
+    height: 320px;
+    display: block;
+    pointer-events: none;
+    background-color:#FFF2E2;
+  }
+
+   .mydiv3 {
+    width: 100%;
+    height: 300px;
+    display: block;
+    pointer-events: none;
+    border:2px  solid  red;
+    background-color:yellow;
+  }
   .stack-container li.move-back {
     /* http://matthewlein.com/ceaser/ */
     -webkit-transition-timing-function: cubic-bezier(0.175, 0.885, 0.470, 1); /* older webkit */

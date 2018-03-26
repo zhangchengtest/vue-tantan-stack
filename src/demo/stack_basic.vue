@@ -22,37 +22,31 @@ export default {
     }
   },
   mounted () {
-    let that = this
-    setTimeout(function () {
-      that.someList = [
-        {
-          html: '<img src="src/img/1.png" alt="01">'
-        },
-        {
-          html: '<img src="src/img/2.png" alt="02">'
-        },
-        {
-          html: '<img src="src/img/3.png" alt="03">'
-        },
-        {
-          html: '<img src="src/img/4.png" alt="04">'
-        },
-        {
-          html: '<img src="src/img/5.png" alt="05">'
-        },
-        {
-          html: '<img src="src/img/6.png" alt="06">'
-        },
-        {
-          html: '<img src="src/img/7.png" alt="07">'
-        }
-      ]
-    }, 2000)
+    
+    
+     this.handleSubmit()
   },
   components: {
     stack
   },
   methods: {
+    handleSubmit(){
+     
+     let formCustom = {
+        hehe: 'heh'
+      }
+      this.$http.post( 'http://api.zhangdeshui.cn/chapter/search/1037/1', this.formCustom, {
+                          'content-type': 'application/json'
+                        }).then((res) => {
+        
+          console.log(res.body);
+          let that = this
+          that.someList = res.body.data
+      }, (response) => {
+           
+      });
+  
+    },
     prev () {
       this.$refs.stack.$emit('prev')
     },
