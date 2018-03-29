@@ -1,4 +1,9 @@
 <template>
+     <div class="stack-wrapper" >
+    <div class="controls" style="margin-bottom:10px;">
+        {{title}} - {{ currentNo}}
+  </div>
+
     <ul class="stack">
       <li class="stack-item" v-for="(item, index) in pages"
       :style="[transformIndex(index),transform(index)]"
@@ -15,6 +20,7 @@
         <div v-html="item.html"></div>
       </li>
     </ul>
+    </div>
 </template>
 <script>
 import detectPrefixes from '../utils/detect-prefixes.js'
@@ -23,6 +29,10 @@ export default {
     stackinit: {
       type: Object,
       default: []
+    },
+    title: {
+      type: String,
+      default: "hello world"
     },
     pages: {
       type: Array,
@@ -35,6 +45,7 @@ export default {
         start: {},
         end: {}
       },
+      currentNo: 1,
       temporaryData: {
         prefixes: detectPrefixes(),
         offsetY: '',
@@ -151,6 +162,7 @@ export default {
         this.temporaryData.opacity = 0
         this.temporaryData.swipe = true
         this.nextTick()
+        console.log('aa')
       // 不满足条件则滑入
       } else {
         this.temporaryData.poswidth = 0
@@ -158,8 +170,10 @@ export default {
         this.temporaryData.swipe = false
         this.temporaryData.rotate = 0
       }
+
     },
     nextTick () {
+        console.log('bb')
       // 记录最终滑动距离
       this.temporaryData.lastPosWidth = this.temporaryData.poswidth
       this.temporaryData.lastPosHeight = this.temporaryData.posheight
@@ -174,6 +188,8 @@ export default {
         this.temporaryData.opacity = 1
         this.temporaryData.rotate = 0
       })
+
+      this.currentNo  = this.temporaryData.currentPage + 1;
     },
     onTransitionEnd (index) {
       let lastPage = this.temporaryData.currentPage === 0 ? this.pages.length - 1 : this.temporaryData.currentPage - 1
@@ -211,6 +227,7 @@ export default {
       this.temporaryData.rotate = '3'
       this.temporaryData.swipe = true
       this.nextTick()
+      
     },
     rotateDirection () {
       if (this.temporaryData.poswidth <= 0) {
@@ -329,7 +346,7 @@ export default {
     height: 320px;
     display: block;
     pointer-events: none;
- 
+    font-size:14px;
     background-color:#FAF9DE;
   }
 

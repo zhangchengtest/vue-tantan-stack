@@ -1,10 +1,12 @@
 <template>
   <div>
-    <div class="stack-wrapper">
-      <stack ref="stack" :pages="someList" :stackinit="stackinit"></stack>
-    </div>
-    <div class="controls">
+  
+   
+      <stack ref="stack" :pages="someList" :stackinit="stackinit" :title="title"></stack>
+    
+    <div class="controls" style="margin-top:90px;">
       <button @click="prev" class="button"><i class="prev"></i><span class="text-hidden">prev</span></button>
+
       <button @click="next" class="button"><i class="next"></i><span class="text-hidden">next</span></button>
     </div>
   </div>
@@ -15,6 +17,11 @@ export default {
   el: '#stack',
   data () {
     return {
+      title:"hello world",
+      total: 50,
+      currentNo: 1,
+      totalSize: 50,
+      currentPage: 1,
       someList: [],
       stackinit: {
         visible: 3
@@ -35,23 +42,37 @@ export default {
      let formCustom = {
         hehe: 'heh'
       }
-      this.$http.post( 'http://api.zhangdeshui.cn/chapter/search/1037/4', this.formCustom, {
+      this.$http.post( 'http://api.zhangdeshui.cn/chapter/search/1037/' + this.currentPage, this.formCustom, {
                           'content-type': 'application/json'
                         }).then((res) => {
         
           console.log(res.body);
           let that = this
           that.someList = res.body.data
+          that.total = res.body.size
+          this.totalSize = res.body.totalSize
+          that.title = this.currentPage + '- '+ res.body.title
       }, (response) => {
            
       });
   
     },
     prev () {
-      this.$refs.stack.$emit('prev')
+      //this.$refs.stack.$emit('prev')
+      console.log(this.currentPage +"-" + (parseInt(this.totalSize)-2));
+
+      if(this.currentPage < parseInt(this.totalSize)){
+          this.currentPage = this.currentPage + 1;
+      }else{
+        
+        this.currentPage = 1;
+      }
+      this.handleSubmit();
     },
     next () {
       this.$refs.stack.$emit('next')
+      console.log(this.$refs.stack.currentNo)
+      this.currentNo = this.$refs.stack.currentNo;
     }
   }
 }
@@ -92,44 +113,26 @@ export default {
     background: #fff;
   }
   .button .next{
-    display: inline-block;
-    width: 10px;
-    height:5px;
-    background: rgb(129,212,125);
-    line-height: 0;
-    font-size:0;
-    vertical-align: middle;
-    -webkit-transform: rotate(45deg);
-    left: -5px;
-    top: 2px;
-    position: relative;
+     display: inline-block;
+     width: 0; 
+    height: 0; 
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    
+    border-left: 10px solid black;
   }
-  .button .next:after{
-    content:'/';
-    display:block;
-    width: 20px;
-    height:5px;
-    background: rgb(129,212,125);
-    -webkit-transform: rotate(-90deg) translateY(-50%) translateX(50%);
-  }
+  
   .button .prev{
-    display: inline-block;
-    width: 20px;
-    height:5px;
-    background: rgb(230,104,104);
-    line-height: 0;
-    font-size:0;
-    vertical-align: middle;
-    -webkit-transform: rotate(45deg);
+   display: inline-block;
+   width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  
+  border-top: 10px solid black;
+
   }
-  .button .prev:after{
-    content:'/';
-    display:block;
-    width: 20px;
-    height:5px;
-    background: rgb(230,104,104);
-    -webkit-transform: rotate(-90deg);
-  }
+  
   .controls .text-hidden {
     position: absolute;
     overflow: hidden;
