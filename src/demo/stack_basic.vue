@@ -42,7 +42,7 @@ export default {
      let formCustom = {
         hehe: 'heh'
       }
-      this.$http.post( 'http://api.zhangdeshui.cn/chapter/search/1037/' + this.currentPage, this.formCustom, {
+      this.$http.post( 'http://api.zhangdeshui.cn/chapter/search/1038/' + this.currentPage, this.formCustom, {
                           'content-type': 'application/json'
                         }).then((res) => {
         
