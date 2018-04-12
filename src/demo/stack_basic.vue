@@ -26,9 +26,7 @@
   </div>
 </template>
 <script>
-import Vue from 'vue'
-import VueProgress from 'vue-progress-path'
-Vue.use(VueProgress)
+
 import stack from '../components/stack'
 export default {
   el: '#stack',
