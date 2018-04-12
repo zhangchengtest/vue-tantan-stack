@@ -63,9 +63,6 @@ export default {
 
       if(this.currentPage < parseInt(this.totalSize)){
           this.currentPage = this.currentPage + 1;
-      }else{
-        
-        this.currentPage = 1;
       }
       this.handleSubmit();
     },
