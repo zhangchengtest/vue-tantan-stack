@@ -2,16 +2,33 @@
   <div>
   
    
-      <stack ref="stack" :pages="someList" :stackinit="stackinit" :title="title"></stack>
+      <stack ref="stack" :key="hi" :pages="someList" :stackinit="stackinit" :title="title"></stack>
     
     <div class="controls" style="margin-top:90px;">
       <button @click="prev" class="button"><i class="prev"></i><span class="text-hidden">prev</span></button>
 
       <button @click="next" class="button"><i class="next"></i><span class="text-hidden">next</span></button>
+
+     
     </div>
+
+     <div class="controls" style="margin-top:5px;">
+      
+      <input
+          type="range"
+          v-model="progressModel"
+          min="1"
+          :max="totalSize"
+          @mouseup.stop.capture.prevent="touchend"
+        />
+    </div>
+
   </div>
 </template>
 <script>
+import Vue from 'vue'
+import VueProgress from 'vue-progress-path'
+Vue.use(VueProgress)
 import stack from '../components/stack'
 export default {
   el: '#stack',
@@ -19,7 +36,9 @@ export default {
     return {
       title:"hello world",
       total: 50,
+      hi: "0",
       currentNo: 1,
+      progress: 0,
       totalSize: 50,
       currentPage: 1,
       someList: [],
@@ -36,7 +55,26 @@ export default {
   components: {
     stack
   },
+  computed: {
+    progressModel: {
+      get () {
+        
+        return this.progress * 100
+      },
+      set (value) {
+        this.progress = value / 100
+      },
+    },
+
+    
+    
+  },
   methods: {
+  touchend(){
+      this.currentPage = Math.round(this.progress * 100);
+       this.handleSubmit();
+      console.log(`${Math.round(this.progress * 100)}`);
+  },
     handleSubmit(){
      
      let formCustom = {
@@ -51,7 +89,8 @@ export default {
           that.someList = res.body.data
           that.total = res.body.size
           this.totalSize = res.body.totalSize
-          that.title = this.currentPage + '- '+ res.body.title
+          that.title = this.currentPage + ' - '+ res.body.title
+         this.$refs.stack.currentNo = 1;
       }, (response) => {
            
       });
